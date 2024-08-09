@@ -82,8 +82,5 @@ Este projeto utiliza o Docker para criar contêineres para o WordPress e o banco
 
 ## Contribuição
 
-Sinta-se à vontade para contribuir com o projeto através de pull requests ou abrindo issues no [repositório do GitHub](https://github.com/seu-usuario/seu-repositorio).
 
-## Licença
-
-Este projeto está licenciado sob a [Licença MIT](LICENSE).
+Este projeto foi elaborado em dupla: Bruno e Axel.
