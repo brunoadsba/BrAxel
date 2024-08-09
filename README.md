@@ -21,6 +21,12 @@ Este projeto utiliza o Docker para criar contêineres para o WordPress e o banco
 - **.env**: Arquivo de variáveis de ambiente para configurar as credenciais do banco de dados e outras configurações.
 - **README.md**: Este arquivo, que fornece uma visão geral do projeto e instruções de uso.
 
+
+### O arquivo .gitkeep é um arquivo de marcador usado para garantir que diretórios vazios sejam incluídos no controle de versão com Git. Aqui está uma explicação mais detalhada:
+
+### O que é .gitkeep?
+Propósito: O Git, por padrão, não rastreia diretórios vazios. Se você tiver um diretório que deseja incluir no repositório Git, mas que não contém arquivos (ou contém apenas arquivos ignorados pelo .gitignore), o Git não adicionará esse diretório ao repositório. O .gitkeep é uma convenção que você pode usar para "forçar" a inclusão do diretório no repositório.
+
 ## Configuração do Ambiente
 
 ### Pré-requisitos
