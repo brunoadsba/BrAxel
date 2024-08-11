@@ -21,6 +21,8 @@ services:  # Define os serviços que serão criados e gerenciados.
   db:  # Nome do serviço do banco de dados MySQL.
     image: mysql:8.0  # Usa a imagem do MySQL versão 8.0.
     container_name: mysql_wordpress  # Nome do container para o serviço MySQL.
+    ports:
+      - "3306:3306"  # Mapeia a porta 3306 do host para a porta 3306 do container MySQL.
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}  # Define a senha do usuário root do MySQL, via variáveis de ambiente.
       MYSQL_DATABASE: ${MYSQL_DATABASE}  # Nome do banco de dados a ser criado, passado como variável de ambiente.
