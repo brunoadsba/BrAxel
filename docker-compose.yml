@@ -1,43 +1,43 @@
-version: '3'
+version: '3'  # Define a versão do Docker Compose que está sendo utilizada.
 
-services:
-  wordpress:
-    image: wordpress:latest
-    container_name: wordpressdevops19
-    ports:
-      - "8081:80"
+services:  # Define os serviços que serão criados e gerenciados.
+  wordpress:  # Nome do serviço do WordPress.
+    image: wordpress:latest  # Usando a imagem mais recente do WordPress disponível no Docker Hub.
+    container_name: wordpressdevops19  # Nome do container para o serviço WordPress.
+    ports:  
+      - "8081:80"  # Mapeia a porta 8081 do host para a porta 80 do container (onde o WordPress estará acessível).
     volumes:
-      - wordpress_data:/var/www/html
+      - wordpress_data:/var/www/html  # Monta um volume persistente para armazenar os arquivos do WordPress.
     environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
-      WORDPRESS_DB_USER: ${MYSQL_USER}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-    depends_on:
-      db:
-        condition: service_healthy
-    restart: always
+      WORDPRESS_DB_HOST: db  # Define o host do banco de dados como 'db', que corresponde ao nome do serviço do banco de dados.
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}  # Nome do banco de dados para o WordPress, definido através de variáveis de ambiente.
+      WORDPRESS_DB_USER: ${MYSQL_USER}  # Usuário do banco de dados, também definido via variáveis de ambiente.
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}  # Senha do banco de dados, definida através de variáveis de ambiente.
+    depends_on:  
+      db:  # Define a dependência do serviço WordPress em relação ao serviço de banco de dados.
+        condition: service_healthy  # O WordPress só será iniciado quando o serviço do banco de dados estiver saudável.
+    restart: always  # Configura o container para reiniciar automaticamente caso falhe.
 
-  db:
-    image: mysql:8.0
-    container_name: mysql_wordpress
+  db:  # Nome do serviço do banco de dados MySQL.
+    image: mysql:8.0  # Usa a imagem do MySQL versão 8.0.
+    container_name: mysql_wordpress  # Nome do container para o serviço MySQL.
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}  # Define a senha do usuário root do MySQL, via variáveis de ambiente.
+      MYSQL_DATABASE: ${MYSQL_DATABASE}  # Nome do banco de dados a ser criado, passado como variável de ambiente.
+      MYSQL_USER: ${MYSQL_USER}  # Nome do usuário que será criado no banco de dados, definido via variável de ambiente.
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}  # Senha do usuário definido acima, também passada via variável de ambiente.
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/mysql  # Monta um volume persistente para armazenar os dados do banco de dados.
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
-    restart: always
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]  # Comando para verificar se o serviço do MySQL está ativo.
+      timeout: 20s  # Define um tempo limite de 20 segundos para o comando de verificação.
+      retries: 10  # Tenta verificar a saúde do serviço até 10 vezes antes de considerar o serviço como não saudável.
+    restart: always  # Configura o container para reiniciar automaticamente caso falhe.
 
-volumes:
-  wordpress_data:
-  db_data:
+volumes:  # Define os volumes persistentes que serão usados pelos serviços.
+  wordpress_data:  # Volume para armazenar os dados do WordPress.
+  db_data:  # Volume para armazenar os dados do MySQL.
 
-networks:
-  default:
-    name: wordpress_network
+networks:  
+  default:  
+    name: wordpress_network  # Nomeia a rede padrão que será usada para conectar os serviços entre si.
