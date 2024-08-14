@@ -30,15 +30,35 @@ services:  # Define os serviços que serão criados e gerenciados.
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}  # Senha do usuário definido acima, também passada via variável de ambiente.
     volumes:
       - db_data:/var/lib/mysql  # Monta um volume persistente para armazenar os dados do banco de dados.
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]  # Comando para verificar se o serviço do MySQL está ativo.
-      timeout: 20s  # Define um tempo limite de 20 segundos para o comando de verificação.
-      retries: 10  # Tenta verificar a saúde do serviço até 10 vezes antes de considerar o serviço como não saudável.
-    restart: always  # Configura o container para reiniciar automaticamente caso falhe.
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3001:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    
+    # healthcheck:
+    #   test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]  # Comando para verificar se o serviço do MySQL está ativo.
+    #   timeout: 20s  # Define um tempo limite de 20 segundos para o comando de verificação.
+    #   retries: 10  # Tenta verificar a saúde do serviço até 10 vezes antes de considerar o serviço como não saudável.
+    # restart: always  # Configura o container para reiniciar automaticamente caso falhe.
 
 volumes:  # Define os volumes persistentes que serão usados pelos serviços.
   wordpress_data:  # Volume para armazenar os dados do WordPress.
   db_data:  # Volume para armazenar os dados do MySQL.
+  grafana-data:  # Volume para armazenar os dados do Grafana.
 
 networks:  
   default:  
