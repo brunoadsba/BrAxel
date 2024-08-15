@@ -1,4 +1,3 @@
-version: '3'  # Define a versão do Docker Compose que está sendo utilizada.
 
 services:  # Define os serviços que serão criados e gerenciados.
   wordpress:  # Nome do serviço do WordPress.
